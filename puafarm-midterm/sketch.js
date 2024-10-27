@@ -1,7 +1,7 @@
 let mgr;
 
 function setup() {
-	createCanvas(innerWidth, innerHeight);
+	createCanvas(1800, 1200);
   mgr = new SceneManager();
   mgr.wire();
   mgr.showScene(lightning);
