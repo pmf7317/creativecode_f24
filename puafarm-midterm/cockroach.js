@@ -1,10 +1,8 @@
-function cockroach(){
 
-  let rows = 0;
-  let cols = 0;
-  let w = 100;
-  let h = w;
+function cockroach(){
   let cockroaches = [];
+
+  let timer = 0;
 
   //pics
   let doo, doo2, doo3, cr, raid;
@@ -12,9 +10,9 @@ function cockroach(){
   class Cockroach {
     constructor(x, y) {
       this.position = createVector(x, y);
-      this.size = random(80, 200); // Bigger size
-      this.speed = random(3, 9); 
-      this.velocity = p5.Vector.random2D().mult(this.speed); // Initial random movement
+      this.size = random(80, 200); 
+      this.speed = random(4, 14); 
+      this.velocity = p5.Vector.random2D().mult(this.speed); // initial random movement
     }
 
     display() {
@@ -23,16 +21,16 @@ function cockroach(){
 
       // move to cockroach position, rotate, draw, reset rotation
       push();
-      translate(this.position.x, this.position.y);
-      rotate(angle);
-      imageMode(CENTER); // Center the image on the position
+      translate(this.position.x, this.position.y); 
+      rotate(angle); 
+      imageMode(CENTER); // center image on position
       image(cr, 0, 0, this.size, this.size);
       pop();
     }
 
     move() {
       // random jitter
-      this.velocity.add(p5.Vector.random2D().mult(0.1));
+      this.velocity.add(p5.Vector.random2D().mult(0.3));
       this.velocity.limit(this.speed);
       this.position.add(this.velocity);
 
@@ -44,10 +42,11 @@ function cockroach(){
     }
 
     runAwayFromMouse() {
+      //pushes bugs away from mouse
       let mouse = createVector(mouseX, mouseY);
-      let distance = p5.Vector.dist(mouse, this.position);
+      let distance = p5.Vector.dist(mouse, this.position); // checking how far from mouse
 
-      if (distance < 250) {
+      if (distance < 300) {
         let fleeDirection = p5.Vector.sub(this.position, mouse).normalize().mult(this.speed * 2);
         this.velocity = fleeDirection;
       }
@@ -55,45 +54,45 @@ function cockroach(){
   }
 
   this.setup = function() {
-    cr = loadImage('cockroach.png'); // Replace with the correct path
+    cr = loadImage('cockroach.png');
     doo = loadImage('doodoo.png');
     doo2 = loadImage('doodoo2.png');
     doo3 = loadImage('dudu.png');
     raid = loadImage('raid.png');
 
+    tint(255); //clears tint from last scene
+
     // generate cockroaches (random positions)
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 35; i++) {
       let x = random(1800);
       let y = random(height);
       cockroaches.push(new Cockroach(x, y));
     }
-    console.log(cr); // Will output 'undefined' if the image isn't loaded properly
-    console.log(width); // Check if width and height are accessible
-  
   }
 
   this.draw = function() {
-    if (frameCount < 600){
+    timer++;
+    if (timer < 350) {
       background(0, 100, 0);
-    } else if (frameCount > 600 && frameCount < 1400) {
-      //no background redraw
-    } else {
-      //go to next scene
-      this.sceneManager.showScene(death);
+    } else if (timer >= 650) { //cockroach smudge glitch for a bit
+      console.log("Switching to clock");
+      this.sceneManager.showScene(clock); // transition to next scene
     }
 
-    // Display bathroom background images
-    image(doo, -200, -300, 1000, 1000);
+    // display dirt background images
+    image(doo, 0, 0, 1000, 1000);
     image(doo2, 600, 300);
-    image(doo3, 1800 - 700, -100)
+    image(doo3, 1800 - 700, 0)
     
 
-    // Display, move, and react each cockroach
+    // display, move, and react each cockroach
     for (let cockroach of cockroaches) {
-      cockroach.runAwayFromMouse(); // Run away if mouse is near
-      cockroach.move();             // Constant movement
-      cockroach.display();          // Display with rotation
+      cockroach.runAwayFromMouse(); // run away if mouse is near
+      cockroach.move();             // constant movement
+      cockroach.display();          // display with rotation
     }
+
+    //raid on mouse
     let x = mouseX - raid.width / 5;
     let y = mouseY - raid.height / 5;
 

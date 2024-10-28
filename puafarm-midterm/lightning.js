@@ -15,7 +15,7 @@ function lightning(){
   //raindrops
   let rains = [];
 
-  // I tried to make them seperate .js files but my sceenManagerLibrary didn't like it?
+  // i tried to make them seperate .js files but my sceenManagerLibrary didn't like it (too complicated)?
   class Cloud{
     constructor(x, y){
       //positional
@@ -27,6 +27,7 @@ function lightning(){
       this.sizey = random(30, 50);
     }
     
+    //shows diff clouds
     display(){
       fill(50);
       noStroke();
@@ -43,16 +44,16 @@ function lightning(){
       this.length = random(15, 30); 
       this.gerth = random(255);
     }
-
+    //raindrops vary in shape, size, velocity
     display(){
       stroke(255, this.gerth);
       line(this.position.x, this.position.y, this.position.x, this.position.y - this.length);
-      print(rains.length)
+      // print(rains.length)
     }
-
+    //try to help with lag and storage
     update(){
       this.position.add(this.velocity)
-      if (rains.length > 900){
+      if (rains.length > 500){
         rains = [];
       }
       if (this.y > height + 30){
@@ -75,7 +76,6 @@ function lightning(){
       let cloud = new Cloud(x, y);
       clouds.push(cloud);
     }
-    startTime = millis();
   }
 
   this.draw =function() {
@@ -88,6 +88,7 @@ function lightning(){
       strokeWeight(random(1, 4));
       line(xCoord1, yCoord1, xCoord2, yCoord2);
 
+      //checks
       if ((xCoord2 > width) | (xCoord2 < 0) | (yCoord2 > height) | (yCoord2 < 0)) {
         clear();
         this.drawBackground();
@@ -101,14 +102,23 @@ function lightning(){
       rains.push(new Rain(random(width), 0));
     }
 
-    if (frameCount > 300) {
-      console.log("Switching to Cockroach Scene");
-      this.sceneManager.showScene(cockroach);
+    //transition to next scene
+    if (frameCount > 500) {
+      console.log("Switching to dvd scene");
+      this.sceneManager.showScene(dvd);
     }
   }
 
+  //refreshes background
   this.drawBackground = function() {
     background(0);
+
+    //mountains
+    fill(6, 64, 30);
+    noStroke();
+    triangle(0, height, 900, height, 450, 400);
+    triangle(800, height, width, height, 1350, 200);
+    noFill();
     
     // iterate through clouds array to display all clouds
     for (let cloud of clouds) {
