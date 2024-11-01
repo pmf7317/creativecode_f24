@@ -50,10 +50,11 @@ function lightning(){
       line(this.position.x, this.position.y, this.position.x, this.position.y - this.length);
       // print(rains.length)
     }
+
     //try to help with lag and storage
     update(){
       this.position.add(this.velocity)
-      if (rains.length > 500){
+      if (rains.length > 750){
         rains = [];
       }
       if (this.y > height + 30){
@@ -103,7 +104,7 @@ function lightning(){
     }
 
     //transition to next scene
-    if (frameCount > 500) {
+    if (frameCount > 700) {
       console.log("Switching to dvd scene");
       this.sceneManager.showScene(dvd);
     }
@@ -119,14 +120,13 @@ function lightning(){
     triangle(0, height, 900, height, 450, 400);
     triangle(800, height, width, height, 1350, 200);
     noFill();
-    
+
     // iterate through clouds array to display all clouds
     for (let cloud of clouds) {
       cloud.display();
     }
 
     // iterate through rains array to display all raindrops
-    // Check lag?
     for (let rain of rains) {
       rain.display();
       rain.update();
