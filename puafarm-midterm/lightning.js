@@ -15,6 +15,8 @@ function lightning(){
   //raindrops
   let rains = [];
 
+  let timer = 0;
+
   // i tried to make them seperate .js files but my sceenManagerLibrary didn't like it (too complicated)?
   class Cloud{
     constructor(x, y){
@@ -80,6 +82,8 @@ function lightning(){
   }
 
   this.draw =function() {
+    timer++;
+
     // generate lightning
     for (var i = 0; i < 20; i++) {
       xCoord1 = xCoord2;
@@ -104,7 +108,7 @@ function lightning(){
     }
 
     //transition to next scene
-    if (frameCount > 700) {
+    if (timer > 700) {
       console.log("Switching to dvd scene");
       this.sceneManager.showScene(dvd);
     }

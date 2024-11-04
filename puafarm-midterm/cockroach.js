@@ -1,11 +1,13 @@
 
 function cockroach(){
-  let cockroaches = [];
+  let cockroaches = []; //cockaroach array
+  let sprays = []; // spray particle array
 
   let timer = 0;
 
   //pics
   let doo, doo2, doo3, cr, raid;
+
 
   class Cockroach {
     constructor(x, y) {
@@ -53,6 +55,29 @@ function cockroach(){
     }
   }
 
+  class Spray {
+    constructor(x, y) {
+      this.position = createVector(x, y);
+      this.velocity = p5.Vector.random2D().mult(random(2, 6));
+      this.lifespan = 50; // lifespan of the spray particle
+    }
+
+    update() {
+      this.position.add(this.velocity);
+      this.lifespan -= 2; // decrease lifespan each frame
+    }
+
+    display() {
+      noStroke();
+      fill(255, this.lifespan * 5); // fade effect
+      ellipse(this.position.x, this.position.y, 8, 8);
+    }
+
+    isFinished() {
+      return this.lifespan <= 0; // check if particle finished
+    }
+  }
+
   this.setup = function() {
     cr = loadImage('cockroach.png');
     doo = loadImage('doodoo.png');
@@ -72,9 +97,9 @@ function cockroach(){
 
   this.draw = function() {
     timer++;
-    if (timer < 350) {
+    if (timer < 500) {
       background(0, 100, 0);
-    } else if (timer >= 650) { //cockroach smudge glitch for a bit
+    } else if (timer >= 900) { //cockroach smudge glitch for a bit
       console.log("Switching to clock");
       this.sceneManager.showScene(clock); // transition to next scene
     }
@@ -90,6 +115,21 @@ function cockroach(){
       cockroach.runAwayFromMouse(); // run away if mouse is near
       cockroach.move();             // constant movement
       cockroach.display();          // display with rotation
+    }
+
+    // draw & manage spray particles
+    for (let i = sprays.length - 1; i >= 0; i--) {
+      sprays[i].update();
+      sprays[i].display();
+      if (sprays[i].isFinished()) {
+        sprays.splice(i, 1); // remove finished particles
+      }
+    }
+    if (mouseIsPressed) {
+      let sprayOrigin = createVector(mouseX, mouseY);
+      for (let i = 0; i < 10; i++) { // Number of particles per frame
+        sprays.push(new Spray(sprayOrigin.x, sprayOrigin.y));
+      }
     }
 
     //raid on mouse

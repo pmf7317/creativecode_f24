@@ -122,7 +122,7 @@ function dvd() {
         }
 
         if (timer > 825) {
-            fill(70);
+            fill(150, 0, 0);
             rect(tvX, tvY + 20, tvWidth, tvHeight - 60);
         }
 
@@ -131,7 +131,7 @@ function dvd() {
             rect(tvX, tvY + 20, tvWidth, tvHeight - 60);
         }
         if (timer > 845) {
-            fill(70);
+            fill(150, 0, 0);
             rect(tvX, tvY + 20, tvWidth, tvHeight - 60);
         }
         if (timer > 855) {
@@ -139,10 +139,19 @@ function dvd() {
             rect(tvX, tvY + 20, tvWidth, tvHeight - 60);
         }
         if (timer > 865) {
-            fill(70);
+            fill(150, 0, 0);
             rect(tvX, tvY + 20, tvWidth, tvHeight - 60);
         }
-        if (timer > 870) {
+        if (timer > 875) {
+            fill(0);
+            rect(tvX, tvY + 20, tvWidth, tvHeight - 60);
+        }
+        if (timer > 885) {
+            fill(150, 0, 0);
+            rect(tvX, tvY + 20, tvWidth, tvHeight - 60);
+        }
+
+        if (timer > 895) {
             fill(0);
             rect(tvX, tvY + 20, tvWidth, tvHeight - 60);
             cracks = [];

@@ -4,9 +4,14 @@ function death(){
     let skull2;
     let timer = 0;
 
+    // mountain positions (transition scene)
+    let mountain1Y = height; // starting y off-screen (bottom)
+    let mountain1TargetY = 400; // final y position for mountain1
+
+    let mountain2Y = height; // starting y off-screen (bottom)
+    let mountain2TargetY = 200; // final y position for mountain2
 
     this.setup = function() {
-        resetMatrix();
         background(50); 
 
         //graveyard
@@ -39,25 +44,47 @@ function death(){
 
     this.draw = function() {
         timer++; // increment timer each frame
-
-        if (timer * 4 < height - 300){
-            tint(255);
-            image(skull, 700, height - (timer * 4), 500, 500);
-            image(skull, 300, height - (timer * 4), 500, 500);
-            image(skull, 1100, height - (timer * 4), 500, 500);
-            image(skull, 100, (timer * 4) - 300, 500, 500);
-            image(skull, 500, (timer * 4 - 300), 500, 500);
-            image(skull, 900, (timer * 4) - 300, 500, 500);
-            image(skull, 1300, (timer * 4) - 300, 500, 500);
-            
-        } else {
+        
+        if (timer > 0 && timer < 400){
             tint(200, 30, 40);
             skull2.resize(500, 500);
             image(skull2, -100, -300, timer * 5, timer * 5);
-            
-            if (timer > 450){
-                background(0);
-            }
-        }  
-    }
-} 
+
+
+        } else if (timer < 1100 && timer){
+            tint(255);
+
+            //going down
+            image(skull, -120, (timer * 2.5) - (height * 1.2), 500, 500);
+            image(skull, 300, (timer * 2.5) - (height * 1.2), 500, 500);
+            image(skull, 700, (timer * 2.5) - (height * 1.2), 500, 500);
+            image(skull, 1100, (timer * 2.5) - (height * 1.2), 500, 500);
+            image(skull, 1500, (timer * 2.5) - (height * 1.2), 500, 500);
+
+            //going up
+            image(skull, 100, (height * 1.8) - (timer * 2.5), 500, 500);
+            image(skull, 500, (height * 1.8) - (timer * 2.5), 500, 500);
+            image(skull, 900, (height * 1.8) - (timer * 2.5), 500, 500);
+            image(skull, 1300, (height * 1.8) - (timer * 2.5), 500, 500);
+        }else if (timer < 1200){ // transition to next scene
+
+            // animate mountains moving up
+            let progress = (timer - 1000) / 200; // time segment
+            mountain1Y = lerp(height, mountain1TargetY, progress); // lerp makes smooth movement
+            mountain2Y = lerp(height, mountain2TargetY, progress);
+
+            background(0);
+            fill(6, 64, 30);
+            noStroke();
+            triangle(0, height, 900, height, 450, mountain1Y);
+            triangle(800, height, width, height, 1350, mountain2Y);
+        }
+
+        
+        if (timer > 1250){
+            console.log("Switching to last lightning scene");
+            this.sceneManager.showScene(lightningend); // transition to next scene
+        
+        } 
+    } 
+}
