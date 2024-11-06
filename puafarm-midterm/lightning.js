@@ -4,10 +4,10 @@ function lightning(){
   let height = 1200;
 
   //lightning
-  var xCoord1 = 0;
-  var yCoord1 = 0;
-  var xCoord2 = 0;
-  var yCoord2 = 0;
+  let xCoord1 = 0;
+  let yCoord1 = 0;
+  let xCoord2 = 0;
+  let yCoord2 = 0;
 
   //clouds
   let clouds = [];
