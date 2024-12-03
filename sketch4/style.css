@@ -1,0 +1,27 @@
+*{
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    display: flex; 
+  }
+
+
+  button {
+    background-color: #E75480;
+    color: #fff;
+    border: black dotted 1px;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+
+}
+
+button:hover {
+    background-color: #AA104F;
+}
+  
